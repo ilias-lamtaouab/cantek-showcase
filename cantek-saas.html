@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cantek — AI That Answers Only To You</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root{
+  --violet:#7C3AED;
+  --violet-2:#A855F7;
+  --fuchsia:#EC4899;
+  --cyan:#06B6D4;
+  --amber:#F59E0B;
+  --ink:#12121F;
+  --ink-2:#0B0F1E;
+  --slate:#5B5B6B;
+  --slate-light:#8A8A99;
+  --bg:#FAFAFC;
+  --card:#FFFFFF;
+  --line:#ECECF3;
+  --radius:18px;
+  --max:1120px;
+}
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+@media (prefers-reduced-motion: reduce){*{animation-duration:.001ms !important;transition-duration:.001ms !important;}}
+
+h1,h2,h3{font-family:'Sora',sans-serif;font-weight:700;letter-spacing:-0.02em;margin:0 0 .4em;color:var(--ink);}
+a{color:inherit;text-decoration:none;cursor:pointer;}
+p{margin:0 0 1em;color:var(--slate);}
+.container{max-width:var(--max);margin:0 auto;padding:0 28px;}
+
+.grad-text{
+  background:linear-gradient(90deg,var(--violet),var(--fuchsia) 55%,var(--cyan));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.eyebrow{
+  font-family:'Inter',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--violet);display:flex;align-items:center;gap:.6em;margin-bottom:.9em;
+}
+.eyebrow::before{content:"";width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,var(--violet),var(--fuchsia));display:inline-block;}
+
+/* ---------- header ---------- */
+header.site{position:sticky;top:0;z-index:50;background:rgba(250,250,252,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+.nav-row{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;max-width:var(--max);margin:0 auto;}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Sora',sans-serif;font-weight:700;font-size:1.15rem;}
+.brand .dot{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--violet),var(--fuchsia) 55%,var(--cyan));flex-shrink:0;}
+nav.links{display:flex;gap:4px;background:var(--card);padding:5px;border-radius:100px;border:1px solid var(--line);}
+nav.links a{font-size:.85rem;font-weight:600;padding:9px 18px;border-radius:100px;transition:all .2s ease;color:var(--slate);}
+nav.links a:hover{color:var(--ink);}
+nav.links a.active{background:var(--ink);color:#fff;}
+.btn{
+  font-family:'Inter',sans-serif;font-weight:700;font-size:.88rem;padding:13px 26px;border-radius:100px;
+  display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease;
+}
+.btn-grad{background:linear-gradient(90deg,var(--violet),var(--fuchsia));color:#fff;box-shadow:0 8px 24px rgba(124,58,237,.35);}
+.btn-grad:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(124,58,237,.45);}
+.btn-ghost{background:var(--card);color:var(--ink);border:1.5px solid var(--line);}
+.btn-ghost:hover{border-color:var(--violet);color:var(--violet);}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:110px 28px 90px;overflow:hidden;}
+.hero::before{
+  content:"";position:absolute;top:-220px;right:-160px;width:640px;height:640px;border-radius:50%;
+  background:radial-gradient(circle,rgba(124,58,237,.35),rgba(236,72,153,.2) 45%,transparent 70%);
+  filter:blur(10px);
+}
+.hero::after{
+  content:"";position:absolute;bottom:-260px;left:-180px;width:560px;height:560px;border-radius:50%;
+  background:radial-gradient(circle,rgba(6,182,212,.28),transparent 70%);
+}
+.hero-grid{position:relative;max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;}
+.hero h1{font-size:clamp(2.3rem,4.4vw,3.6rem);line-height:1.06;}
+.hero .lede{font-size:1.12rem;max-width:44ch;}
+.hero-actions{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap;}
+.pill-row{display:flex;gap:10px;margin-top:34px;flex-wrap:wrap;}
+.pill{font-size:.78rem;font-weight:600;padding:7px 14px;border-radius:100px;background:var(--card);border:1px solid var(--line);color:var(--slate);}
+
+.orb-wrap{position:relative;display:flex;align-items:center;justify-content:center;}
+.orb{width:min(360px,90%);height:auto;}
+
+/* ---------- sections ---------- */
+section{padding:88px 28px;position:relative;}
+section.tint{background:linear-gradient(180deg,#F4F1FF,#FAFAFC);}
+.section-head{max-width:60ch;margin-bottom:48px;}
+.section-head h2{font-size:clamp(1.7rem,2.8vw,2.3rem);}
+.section-head .lede{font-size:1.05rem;}
+
+/* pillar / service cards */
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+.pcard{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:32px 26px;
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;position:relative;overflow:hidden;
+}
+.pcard:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(18,18,31,.1);}
+.pcard .chip{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:1.4rem;}
+.pcard h3{font-size:1.2rem;margin-bottom:.5em;}
+.pcard p{font-size:.95rem;margin:0;}
+.chip-violet{background:linear-gradient(135deg,var(--violet),#A855F7);}
+.chip-cyan{background:linear-gradient(135deg,var(--cyan),#22D3EE);}
+.chip-amber{background:linear-gradient(135deg,var(--amber),#FBBF24);}
+.chip-fuchsia{background:linear-gradient(135deg,var(--fuchsia),#F472B6);}
+
+/* articles (services page) */
+.service-block{
+  display:grid;grid-template-columns:280px 1fr;gap:40px;padding:44px 0;border-top:1px solid var(--line);align-items:start;
+}
+.service-block:last-child{border-bottom:1px solid var(--line);}
+.service-badge{width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:1.7rem;margin-bottom:16px;}
+.service-block h3{font-size:1.4rem;}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+.tag{font-size:.75rem;font-weight:600;padding:6px 13px;border-radius:100px;background:#F4F1FF;color:var(--violet);}
+.tag.c{background:#E6FBFE;color:#0E7490;}
+.tag.a{background:#FFF7E6;color:#B45309;}
+
+/* founders */
+.founder{display:grid;grid-template-columns:96px 1fr;gap:22px;padding:26px 0;border-top:1px solid var(--line);align-items:start;}
+.founder:last-child{border-bottom:1px solid var(--line);}
+.avatar{width:88px;height:88px;border-radius:24px;display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:700;color:#fff;font-size:1.4rem;}
+.founder h3{font-size:1.15rem;margin-bottom:.1em;}
+.founder .role{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--fuchsia);margin-bottom:.6em;display:block;}
+
+/* stat banner */
+.banner{
+  border-radius:28px;padding:64px 40px;text-align:center;position:relative;overflow:hidden;
+  background:linear-gradient(120deg,var(--ink-2),#1A1032 55%,var(--ink-2));
+  color:#fff;
+}
+.banner::before{content:"";position:absolute;top:-140px;right:-100px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(124,58,237,.5),transparent 70%);}
+.banner::after{content:"";position:absolute;bottom:-160px;left:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(6,182,212,.4),transparent 70%);}
+.banner h2{color:#fff;position:relative;font-size:clamp(1.6rem,2.6vw,2.2rem);max-width:24ch;margin:0 auto .4em;}
+.banner p{color:#C9C4E0;position:relative;max-width:56ch;margin:0 auto 28px;}
+
+/* contact */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
+.field{margin-bottom:18px;}
+.field label{display:block;font-size:.8rem;font-weight:700;margin-bottom:8px;color:var(--ink);}
+.field input,.field textarea{
+  width:100%;padding:13px 16px;border:1.5px solid var(--line);background:var(--card);
+  font-family:'Inter',sans-serif;font-size:1rem;color:var(--ink);border-radius:12px;
+}
+.field textarea{min-height:120px;resize:vertical;}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 4px rgba(124,58,237,.12);}
+.info-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:8px 26px;}
+.info-row{padding:20px 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:4px;}
+.info-card .info-row:first-child{border-top:none;}
+.info-row .k{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--violet);}
+.info-row .v{font-size:1rem;font-weight:600;}
+
+/* footer */
+footer.site{border-top:1px solid var(--line);padding:36px 28px;}
+.footer-row{max-width:var(--max);margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-row .fine{font-size:.82rem;color:var(--slate-light);}
+
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+.page{display:none;}
+.page.active{display:block;}
+
+@media (max-width:860px){
+  .hero-grid{grid-template-columns:1fr;gap:40px;}
+  .orb-wrap{order:-1;}
+  .orb{width:220px;}
+  .grid-3{grid-template-columns:1fr;}
+  .service-block{grid-template-columns:1fr;gap:16px;}
+  .founder{grid-template-columns:76px 1fr;}
+  .contact-grid{grid-template-columns:1fr;}
+  nav.links{display:none;}
+}
+</style>
+</head>
+<body>
+
+<template id="orb-template">
+  <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="orbGrad" cx="35%" cy="30%" r="75%">
+        <stop offset="0%" stop-color="#C084FC"/>
+        <stop offset="45%" stop-color="#7C3AED"/>
+        <stop offset="80%" stop-color="#4C1D95"/>
+        <stop offset="100%" stop-color="#1A1032"/>
+      </radialGradient>
+      <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#06B6D4"/>
+        <stop offset="100%" stop-color="#EC4899"/>
+      </linearGradient>
+    </defs>
+    <circle cx="200" cy="200" r="150" fill="url(#orbGrad)"/>
+    <circle cx="200" cy="200" r="178" fill="none" stroke="url(#ringGrad)" stroke-width="2" stroke-dasharray="4 10" opacity="0.7"/>
+    <circle cx="200" cy="200" r="195" fill="none" stroke="url(#ringGrad)" stroke-width="1" opacity="0.35"/>
+    <circle cx="128" cy="140" r="34" fill="#fff" opacity="0.16"/>
+    <g fill="#fff">
+      <circle cx="200" cy="60" r="6" opacity="0.9"/>
+      <circle cx="340" cy="200" r="5" opacity="0.8"/>
+      <circle cx="200" cy="340" r="6" opacity="0.9"/>
+      <circle cx="60" cy="200" r="5" opacity="0.8"/>
+      <circle cx="305" cy="95" r="4" opacity="0.7"/>
+      <circle cx="305" cy="305" r="4" opacity="0.7"/>
+      <circle cx="95" cy="305" r="4" opacity="0.7"/>
+    </g>
+    <text x="200" y="212" text-anchor="middle" fill="#fff" font-family="Sora, sans-serif" font-size="30" font-weight="700">MAI</text>
+  </svg>
+</template>
+
+<header class="site">
+  <div class="nav-row">
+    <a class="brand" href="#home" data-nav="home"><span class="dot"></span>Cantek</a>
+    <nav class="links">
+      <a href="#home" data-nav="home">Home</a>
+      <a href="#services" data-nav="services">Services</a>
+      <a href="#about" data-nav="about">About</a>
+      <a href="#contact" data-nav="contact">Contact</a>
+    </nav>
+    <a class="btn btn-grad" href="#contact" data-nav="contact">Let's talk</a>
+  </div>
+</header>
+
+<!-- ============ HOME ============ -->
+<main id="page-home" class="page">
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Sovereign AI, built in Marrakech</div>
+        <h1>AI that works for you — <span class="grad-text">and only you.</span></h1>
+        <p class="lede">Cantek builds private AI systems, custom software, and modernization programs for companies that want the power of AI without giving up their data.</p>
+        <div class="hero-actions">
+          <a class="btn btn-grad" href="#services" data-nav="services">Explore services →</a>
+          <a class="btn btn-ghost" href="#about" data-nav="about">Meet the team</a>
+        </div>
+        <div class="pill-row">
+          <span class="pill">🔒 Private by design</span>
+          <span class="pill">⚡ Fast to deploy</span>
+          <span class="pill">🇲🇦 Based in Marrakech</span>
+        </div>
+      </div>
+      <div class="orb-wrap"><span class="orb reveal in orb-slot"></span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">What we do</div>
+        <h2>Three ways we help you grow</h2>
+        <p class="lede">From private AI to full product builds, everything is designed around one idea: your data stays yours.</p>
+      </div>
+      <div class="grid-3">
+        <div class="pcard reveal"><div class="chip chip-violet">🧠</div><h3>MAI — Modular AI</h3><p>Private, self-hosted AI: language models, agents, automation, and one dashboard to run it all.</p></div>
+        <div class="pcard reveal"><div class="chip chip-cyan">💻</div><h3>Custom Development</h3><p>Web and mobile apps, secure APIs, and integrations built around how your team actually works.</p></div>
+        <div class="pcard reveal"><div class="chip chip-amber">🚀</div><h3>IT Modernization</h3><p>Audits, refactoring, and cloud migration — planned properly, not rushed.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tint">
+    <div class="container">
+      <div class="banner reveal">
+        <div class="eyebrow" style="justify-content:center;color:#C4B5FD;">Why sovereignty</div>
+        <h2>Every deployment stays under your control, not someone else's.</h2>
+        <p>That's the whole point of "sovereign" — the AI works for the organization that holds it, on infrastructure that organization owns.</p>
+        <a class="btn btn-grad" href="#contact" data-nav="contact">Start a project →</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ SERVICES ============ -->
+<main id="page-services" class="page">
+  <section class="hero" style="padding-bottom:40px;">
+    <div class="container">
+      <div class="eyebrow">What we build</div>
+      <h1 style="max-width:18ch;">Services, in plain terms</h1>
+      <p class="lede">Three offerings. Each one comes with the tools and frameworks behind it.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:20px;">
+    <div class="container">
+      <div class="service-block reveal">
+        <div>
+          <div class="service-badge chip-violet">🧠</div>
+          <h3>MAI — Modular AI</h3>
+        </div>
+        <div>
+          <p>Our flagship offering: a private AI platform built from self-hosted language models, purpose-built agents, automation pipelines, and one dashboard for oversight. Nothing leaves your environment by default.</p>
+          <div class="tags">
+            <span class="tag">Private LLMs</span><span class="tag">GPT / LLaMA / Mistral</span><span class="tag">LangChain</span><span class="tag">RAG & fine-tuning</span><span class="tag">Copilots</span>
+          </div>
+        </div>
+      </div>
+      <div class="service-block reveal">
+        <div>
+          <div class="service-badge chip-cyan">💻</div>
+          <h3>Custom Development</h3>
+        </div>
+        <div>
+          <p>Web and mobile apps, internal dashboards, and secure APIs or microservices — including integrations with the ERP, CRM, or document systems you already use.</p>
+          <div class="tags">
+            <span class="tag c">React / Next.js</span><span class="tag c">Flask / FastAPI</span><span class="tag c">PostgreSQL / MongoDB</span><span class="tag c">JWT / OAuth2</span>
+          </div>
+        </div>
+      </div>
+      <div class="service-block reveal">
+        <div>
+          <div class="service-badge chip-amber">🚀</div>
+          <h3>IT Modernization</h3>
+        </div>
+        <div>
+          <p>Feasibility studies, information-system audits, legacy refactoring, and cloud migration — guided by frameworks like TOGAF and COBIT, so change happens on purpose.</p>
+          <div class="tags">
+            <span class="tag a">TOGAF / COBIT</span><span class="tag a">Docker / Kubernetes</span><span class="tag a">Azure / AWS / GCP</span><span class="tag a">MLOps</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tint">
+    <div class="container">
+      <div class="section-head reveal"><div class="eyebrow">How it works</div><h2>A simple three-step process</h2></div>
+      <div class="grid-3">
+        <div class="pcard reveal"><div class="chip chip-fuchsia">1</div><h3>Audit</h3><p>We understand your current system and where AI actually helps.</p></div>
+        <div class="pcard reveal"><div class="chip chip-fuchsia">2</div><h3>Build</h3><p>We ship the agreed scope against your existing stack, not around it.</p></div>
+        <div class="pcard reveal"><div class="chip chip-fuchsia">3</div><h3>Hand off</h3><p>We document everything so your team can run it on its own.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ ABOUT ============ -->
+<main id="page-about" class="page">
+  <section class="hero" style="padding-bottom:40px;">
+    <div class="container">
+      <div class="eyebrow">Who we are</div>
+      <h1 style="max-width:20ch;">Two different careers, one shared idea</h1>
+      <p class="lede">Cantek was founded on the belief that adopting AI shouldn't cost a company control of its own data.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:20px;">
+    <div class="container">
+      <div class="section-head reveal"><div class="eyebrow">Leadership</div><h2>Meet the founders</h2></div>
+      <div class="founder reveal">
+        <div class="avatar" style="background:linear-gradient(135deg,var(--violet),var(--fuchsia));">AL</div>
+        <div><h3>Ali Lamtaouab</h3><span class="role">Co-founder & CEO</span><p>25+ years leading IT transformation. MBA from UQAM & Paris-Dauphine. Previously directed initiatives at Québec's MSSS, VIA Rail Canada, and CIBC.</p></div>
+      </div>
+      <div class="founder reveal">
+        <div class="avatar" style="background:linear-gradient(135deg,var(--cyan),var(--violet));">OB</div>
+        <div><h3>Dr. Omar Bencharef</h3><span class="role">Co-founder & CTO</span><p>PhD (HDR), 100+ publications in AI research. Connected to Sirius Conseil, Agilience, and Alidantek Inc., alongside academic work at Université Cadi Ayyad.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tint">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Mission</div>
+        <h2>Why "sovereign" is the whole point</h2>
+        <p class="lede">Most AI tools ask you to send your data somewhere else to get value back. We think the model should come to your data instead — deployed on infrastructure you already control, governed by your own policies.</p>
+      </div>
+      <div class="grid-3">
+        <div class="pcard reveal"><div class="chip chip-violet">🔐</div><h3>Ownership</h3><p>You keep your data, your models, and your decisions in-house.</p></div>
+        <div class="pcard reveal"><div class="chip chip-cyan">📐</div><h3>Rigor</h3><p>Real governance and audits, not a demo that never ships.</p></div>
+        <div class="pcard reveal"><div class="chip chip-amber">🎯</div><h3>Fit</h3><p>Systems built against your actual stack, not a generic template.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ CONTACT ============ -->
+<main id="page-contact" class="page">
+  <section class="hero" style="padding-bottom:40px;">
+    <div class="container">
+      <div class="eyebrow">Get in touch</div>
+      <h1 style="max-width:18ch;">Let's build something sovereign</h1>
+      <p class="lede">This form is a demo and doesn't send anywhere — but the details on the right are real.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:10px;">
+    <div class="container">
+      <div class="contact-grid">
+        <form id="contact-form" class="reveal" novalidate>
+          <div class="field"><label for="name">Full name</label><input id="name" type="text" required></div>
+          <div class="field"><label for="email">Email</label><input id="email" type="email" required></div>
+          <div class="field"><label for="org">Organization</label><input id="org" type="text"></div>
+          <div class="field"><label for="message">What are you looking to build?</label><textarea id="message" required></textarea></div>
+          <button class="btn btn-grad" type="submit">Send message →</button>
+        </form>
+        <div class="reveal info-card">
+          <div class="info-row"><span class="k">Email</span><span class="v">cantek.contact@gmail.com</span></div>
+          <div class="info-row"><span class="k">Focus</span><span class="v">Sovereign AI, custom software, IT modernization</span></div>
+          <div class="info-row"><span class="k">Based in</span><span class="v">Guéliz, Marrakech</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="footer-row">
+    <span class="brand"><span class="dot" style="width:22px;height:22px;border-radius:7px;"></span>Cantek</span>
+    <span class="fine">© 2025 Cantek — Sovereign AI, built in Marrakech</span>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const tpl = document.getElementById('orb-template');
+  document.querySelectorAll('.orb-slot').forEach(slot => slot.appendChild(tpl.content.cloneNode(true)));
+
+  const pages = ['home','services','about','contact'];
+  function showPage(name){
+    if (!pages.includes(name)) name = 'home';
+    pages.forEach(p => document.getElementById('page-' + p).classList.toggle('active', p === name));
+    document.querySelectorAll('nav.links a[data-nav]').forEach(a => a.classList.toggle('active', a.dataset.nav === name));
+    window.scrollTo({top:0, behavior:'auto'});
+    revealVisible();
+  }
+  function currentPage(){ return (location.hash || '#home').replace('#',''); }
+  window.addEventListener('hashchange', () => showPage(currentPage()));
+  showPage(currentPage());
+
+  function revealVisible(){
+    const els = document.querySelectorAll('.page.active .reveal:not(.in)');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('in'); io.unobserve(entry.target); } });
+      }, { threshold: 0.12 });
+      els.forEach(el => io.observe(el));
+    } else { els.forEach(el => el.classList.add('in')); }
+  }
+
+  const form = document.querySelector('#contact-form');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]');
+      const original = btn.textContent;
+      btn.textContent = 'Sent — thank you!';
+      btn.disabled = true;
+      setTimeout(() => { btn.textContent = original; btn.disabled = false; form.reset(); }, 2400);
+    });
+  }
+});
+</script>
+</body>
+</html>
